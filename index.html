@@ -294,7 +294,7 @@
             align-items: flex-end;
             justify-content: center;
 
-            gap: 35px;
+            gap: 0px;
 
             z-index: 10;
         }
@@ -418,7 +418,41 @@
                     rotate(2deg);
             }
         }
+        /* =========================
+   FIREWORKS
+========================= */
 
+#fireworks {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    overflow: hidden;
+}
+
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    animation: fireworkExplosion 1.2s ease-out forwards;
+}
+
+@keyframes fireworkExplosion {
+    0% {
+        transform:
+            translate(0, 0)
+            scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(var(--x), var(--y))
+            scale(0.2);
+        opacity: 0;
+    }
+}
         /* =========================
            MESSAGE
         ========================= */
@@ -657,7 +691,7 @@
         ♫
     </button>
 
-
+    <div id="fireworks"></div>
     <script>
 
         const startScreen = document.getElementById("startScreen");
@@ -780,11 +814,32 @@
                 Light second candle
             */
 
-            setTimeout(() => {
+           setTimeout(() => {
 
-                flame1.classList.add("lit");
+    flame1.classList.add("lit");
 
-            }, 4800);
+    // First fireworks
+    createFirework(
+        window.innerWidth * 0.25,
+        window.innerHeight * 0.25
+    );
+
+    createFirework(
+        window.innerWidth * 0.75,
+        window.innerHeight * 0.22
+    );
+
+    // Big center firework
+    setTimeout(() => {
+
+        createFirework(
+            window.innerWidth * 0.5,
+            window.innerHeight * 0.18
+        );
+
+    }, 400);
+
+}, 4800);
 
 
             /*
@@ -957,6 +1012,66 @@
             }
 
         }
+        function createFirework(x, y) {
+
+    const colors = [
+        "#ff4f81",
+        "#ffd166",
+        "#ffffff",
+        "#c77dff",
+        "#80ed99",
+        "#ff9f1c"
+    ];
+
+    const particles = 45;
+
+    for (let i = 0; i < particles; i++) {
+
+        const particle = document.createElement("div");
+
+        particle.classList.add("firework");
+
+        particle.style.left = x + "px";
+        particle.style.top = y + "px";
+
+        const angle =
+            (Math.PI * 2 * i) / particles;
+
+        const distance =
+            80 + Math.random() * 120;
+
+        const moveX =
+            Math.cos(angle) * distance;
+
+        const moveY =
+            Math.sin(angle) * distance;
+
+        particle.style.setProperty(
+            "--x",
+            moveX + "px"
+        );
+
+        particle.style.setProperty(
+            "--y",
+            moveY + "px"
+        );
+
+        particle.style.background =
+            colors[
+                Math.floor(
+                    Math.random() * colors.length
+                )
+            ];
+
+        document
+            .getElementById("fireworks")
+            .appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 1300);
+    }
+}
 
     </script>
 
