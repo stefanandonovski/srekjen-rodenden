@@ -1496,67 +1496,16 @@
         ===================================== */
 
         
-function startFireworks() {
-
-    function launchNextFirework() {
-
-        const x =
-            window.innerWidth *
-            (0.10 + Math.random() * 0.80);
-
-        const y =
-            window.innerHeight *
-            (0.05 + Math.random() * 0.45);
-
-        createFirework(x, y);
-
-        /*
-            Schedule another firework.
-
-            Because this calls itself again after
-            every explosion, the fireworks continue
-            indefinitely while the page is open.
-        */
-
-        setTimeout(
-            launchNextFirework,
-            400 + Math.random() * 700
-        );
-    }
-
-
-    /*
-        Start several fireworks immediately
-        so there is no empty period.
-    */
-
-    createFirework(
-        window.innerWidth * 0.25,
-        window.innerHeight * 0.20
-    );
-
-    setTimeout(() => {
-
-        createFirework(
-            window.innerWidth * 0.75,
-            window.innerHeight * 0.25
-        );
-
-    }, 300);
-
-
-    /*
-        Start the infinite sequence.
-    */
-
-    setTimeout(
-        launchNextFirework,
-        500
-    );
+function startFireworks() { 
+    /* First fireworks immediately */
+    createFirework( window.innerWidth * 0.25, window.innerHeight * 0.25 ); 
+    createFirework( window.innerWidth * 0.75, window.innerHeight * 0.20 );
+    /* Continue forever */ 
+    setInterval(() => { const x = window.innerWidth * ( 0.10 + Math.random() * 0.80 ); 
+                       const y = window.innerHeight * ( 0.08 + Math.random() * 0.42 ); 
+                       createFirework( x, y ); 
+                      }, 650);
 }
-
-
-
 
         /* =====================================
            CONFETTI
